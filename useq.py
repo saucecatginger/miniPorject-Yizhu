@@ -43,7 +43,7 @@ def geteq():
     else:
         print(resp.reason)
 
-@app.route('/earthquake', methods=['POST'])
+@app.route('/records', methods=['POST'])
 def create():
     session.execute("""INSERT INTO useq.stats (time,latitude,longitute,depth,mag,magType,id,place,type) VALUES ('{}',{},{},{},{},'{}','{}','{}','{}')""".format
                     (request.json['time'],float(request.json['latitude']),float(request.json['longitude']),float(request.json['depth']),float(request.json['mag']),request.json['magType'],request.json['id'],request.json['place'],request.json['type']))
