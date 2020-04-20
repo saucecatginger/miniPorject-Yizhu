@@ -49,12 +49,12 @@ def create():
                     (request.json['time'],float(request.json['latitude']),float(request.json['longitude']),float(request.json['depth']),float(request.json['mag']),request.json['magType'],request.json['id'],request.json['place'],request.json['type']))
     return jsonify({'message': 'updated:/records/{}'.format(request.json['id'])}), 201
 
-@app.route('/earthquake', methods=['PUT'])
+@app.route('/records', methods=['PUT'])
 def update():
     session.execute("""UPDATE useq.stats SET latitude = {} WHERE id = '{}'""".format(float(request.json['latitude']),request.json['id']))
     return jsonify({'message': 'updated:/records/{}'.format(request.json['id'])}), 200
 
-@app.route('/earthquake', methods=['DELETE'])
+@app.route('/records', methods=['DELETE'])
 def delete():
     session.execute("""DELETE FROM useq.stats WHERE id = '{}'""".format(request.json['id']))
     return jsonify({'message': 'deleted:/records/{}'.format(request.json['id'])}), 200
