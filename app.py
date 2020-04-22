@@ -44,7 +44,7 @@ def search(id):
     return('<h1>That earthquake does not exist!</h1>')
 
 # return earthquake by its MMI
-@app.route('/exeq/<mmi>', methods=['GET'])
+@app.route('/eqmmi/<mmi>', methods=['GET'])
 def getbymmi(mmi):
     eq_url_template = 'https://api.geonet.org.nz/quake?MMI={mmi}'
     
@@ -59,7 +59,7 @@ def getbymmi(mmi):
         print(resp.reason)
 
 #return earthquake by its publicID        
-@app.route('/exeq/<publicID>', methods=['GET'])
+@app.route('/eqid/<publicID>', methods=['GET'])
 def getbyid(publicID):
     eq_url_template = 'https://api.geonet.org.nz/quake/{publicID}'
     
