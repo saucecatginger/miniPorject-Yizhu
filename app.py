@@ -34,6 +34,7 @@ def profile():
         result.append({"id":r.ID,"latitude":r.latitude,"longitude":longitude})
     return jsonify(result)
 
+# return earthquake by its ID
 @app.route('/earthquake/<id>', methods=['GET'])
 def search(id):
     rows = session.execute( """Select * From useq.stats 
@@ -42,6 +43,7 @@ def search(id):
         return('<h1>{} - latitude: {}, longtitude: {}</h1>'.format(id, eq.latitude, eq.longtitude))
     return('<h1>That earthquake does not exist!</h1>')
 
+# return earthquake by its MMI
 @app.route('/exeq/<mmi>', methods=['GET'])
 def getbymmi(mmi):
     eq_url_template = 'https://api.geonet.org.nz/quake?MMI={mmi}'
@@ -56,6 +58,7 @@ def getbymmi(mmi):
     else:
         print(resp.reason)
 
+#return earthquake by its publicID        
 @app.route('/exeq/<publicID>', methods=['GET'])
 def getbyid(publicID):
     eq_url_template = 'https://api.geonet.org.nz/quake/{publicID}'
@@ -70,16 +73,19 @@ def getbyid(publicID):
     else:
         print(resp.reason)
 
+# post a new earthquake
 @app.route('/eqrecords', methods=['POST'])
 def create():
     session.execute("""INSERT INTO useq.stats (id) VALUES ('{}')""".format(request.json['id']))
     return jsonify({'message': 'created: /eqrecords/{}'.format(request.json['id'])}), 201
 
+# update an exisiting earthquake
 @app.route('/eqrecords', methods=['PUT'])
 def update():
     session.execute("""UPDATE useq.stats SET latitude = {} WHERE id = '{}'""".format(float(request.json['latitude']),request.json['id']))
     return jsonify({'message': 'updated: /eqrecords/{}'.format(request.json['id'])}), 200
 
+# delete an earthquake record
 @app.route('/eqrecords', methods=['DELETE'])
 def delete():
     session.execute("""DELETE FROM useq.stats WHERE id = '{}'""".format(request.json['id']))
